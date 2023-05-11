@@ -90,5 +90,12 @@ app.get("/testimonials", (req, res) => {
 });
 
 app.get("/testimonials/:id", (req, res) => {
-  res.json(db[req.params.id]);
+  const { id } = req.params;
+  const getElementById = db.find((el) => el.id === +id);
+
+  if (getElementById) {
+    res.json(getElementById);
+  } else {
+    res.status(404).json({ message: "Given id doesn't exist." });
+  }
 });
