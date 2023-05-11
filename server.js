@@ -89,3 +89,6 @@ app.get("/testimonials", (req, res) => {
   res.json(db);
 });
 
+app.get("/testimonials/:id", (req, res) => {
+  res.json(db[req.params.id]);
+});
