@@ -84,3 +84,8 @@ const db = [
     text: "urna justo faucibus lectus, a sollicitudin orci sem eget massa.",
   },
 ];
+
+app.get("/testimonials", (req, res) => {
+  res.json(db);
+});
+
