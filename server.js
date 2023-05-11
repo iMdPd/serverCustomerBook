@@ -89,6 +89,13 @@ app.get("/testimonials", (req, res) => {
   res.json(db);
 });
 
+app.get("/testimonials/random", (req, res) => {
+  const numbersOfElements = db.length;
+  const randomElement = Math.floor(Math.random() * numbersOfElements);
+
+  res.json(db[randomElement]);
+});
+
 app.get("/testimonials/:id", (req, res) => {
   const { id } = req.params;
   const getElementById = db.find((el) => el.id === +id);
