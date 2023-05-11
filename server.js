@@ -154,3 +154,7 @@ app.delete("/testimonials/:id", (req, res) => {
     res.send("Given id doesn't exist.");
   }
 });
+
+app.use((req, res) => {
+  res.status(404).json({ message: "Not found..." });
+});
