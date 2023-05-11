@@ -104,7 +104,7 @@ app.get("/testimonials/:id", (req, res) => {
   if (getElementById) {
     res.json(getElementById);
   } else {
-    res.status(404).json({ message: "Given id doesn't exist." });
+    res.send("Given id doesn't exist.");
   }
 });
 
@@ -117,7 +117,26 @@ app.post("/testimonials", (req, res) => {
     res.send("Data has been successfully added!");
     console.log(db);
   } else {
-    res.render(
+    res.send(
+      "Ooops, something went wrong. Please don't forget to fill all input fields."
+    );
+  }
+});
+
+app.put("/testimonials/:id", (req, res) => {
+  const { id } = req.params;
+  const { name, company, email, text } = req.body;
+  const getElementById = db.find((obj) => obj.id === +id);
+
+  if (getElementById && (name || company || email || text)) {
+    getElementById.name = name;
+    getElementById.company = company;
+    getElementById.email = email;
+    getElementById.text = text;
+    res.send("Data has been successfully changed!");
+    console.log(db);
+  } else {
+    res.send(
       "Ooops, something went wrong. Please don't forget to fill all input fields."
     );
   }
@@ -130,7 +149,8 @@ app.delete("/testimonials/:id", (req, res) => {
   if (removedElement >= 0) {
     db.splice(removedElement, 1);
     res.send("Data has been successfully removed!");
+    console.log(db);
   } else {
-    res.status(404).json({ message: "Given id doesn't exist." });
+    res.send("Given id doesn't exist.");
   }
 });
