@@ -122,3 +122,15 @@ app.post("/testimonials", (req, res) => {
     );
   }
 });
+
+app.delete("/testimonials/:id", (req, res) => {
+  const { id } = req.params;
+  const removedElement = db.findIndex((obj) => obj.id === +id);
+
+  if (removedElement >= 0) {
+    db.splice(removedElement, 1);
+    res.send("Data has been successfully removed!");
+  } else {
+    res.status(404).json({ message: "Given id doesn't exist." });
+  }
+});
