@@ -10,3 +10,4 @@ app.listen(port, () => {
 
 app.use(express.static(path.join(__dirname, "/public")));
 app.use(express.urlencoded());
+app.use(express.json());
