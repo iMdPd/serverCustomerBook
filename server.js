@@ -1,11 +1,12 @@
 const express = require("express");
 const app = express();
-const port = 8000;
+const PORT = 8000;
 
 const path = require("path");
 
-app.listen(port, () => {
-  console.log(`Server is running on port: ${port}`);
+app.listen(PORT, (err) => {
+  if (err) console.log(err);
+  console.log(`Server is running on port: ${PORT}`);
 });
 
 app.use(express.static(path.join(__dirname, "/public")));
@@ -98,11 +99,26 @@ app.get("/testimonials/random", (req, res) => {
 
 app.get("/testimonials/:id", (req, res) => {
   const { id } = req.params;
-  const getElementById = db.find((el) => el.id === +id);
+  const getElementById = db.find((obj) => obj.id === +id);
 
   if (getElementById) {
     res.json(getElementById);
   } else {
     res.status(404).json({ message: "Given id doesn't exist." });
+  }
+});
+
+app.post("/testimonials", (req, res) => {
+  const { name, company, email, text } = req.body;
+  const id = Math.max(...db.map((obj) => obj.id)) + 1;
+
+  if (name && company && email && text) {
+    db.push({ id, name, company, email, text });
+    res.send("Data has been successfully added!");
+    console.log(db);
+  } else {
+    res.render(
+      "Ooops, something went wrong. Please don't forget to fill all input fields."
+    );
   }
 });
