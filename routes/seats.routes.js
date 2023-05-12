@@ -13,7 +13,7 @@ router.route("/seats/:id").get((req, res) => {
   if (getElementById) {
     res.json(getElementById);
   } else {
-    res.send("Given id doesn't exist.");
+    res.status(404).json({ message: "Given id doesn't exist." });
   }
 });
 
@@ -23,12 +23,17 @@ router.route("/seats").post((req, res) => {
 
   if (day && seat && client && email) {
     seats.push({ id, day, seat, client, email });
-    res.send("Data has been successfully added!");
+
+    res.status(200).json({
+      message: "Data has been successfully added!",
+    });
+
     console.log(seats);
   } else {
-    res.send(
-      "Ooops, something went wrong. Please don't forget to fill all input fields."
-    );
+    res.status(404).json({
+      message:
+        "Ooops, something went wrong. Please don't forget to fill all input fields.",
+    });
   }
 });
 
@@ -42,12 +47,17 @@ router.route("/seats/:id").put((req, res) => {
     getElementById.seat = seat;
     getElementById.client = client;
     getElementById.email = email;
-    res.send("Data has been successfully changed!");
+
+    res.status(200).json({
+      message: "Data has been successfully changed!",
+    });
+
     console.log(seats);
   } else {
-    res.send(
-      "Ooops, something went wrong. Please don't forget to fill all input fields."
-    );
+    res.status(404).json({
+      message:
+        "Ooops, something went wrong. Please don't forget to fill all input fields.",
+    });
   }
 });
 
@@ -57,10 +67,14 @@ router.route("/seats/:id").delete((req, res) => {
 
   if (removedElement >= 0) {
     seats.splice(removedElement, 1);
-    res.send("Data has been successfully removed!");
+
+    res.status(200).json({
+      message: "Data has been successfully removed!",
+    });
+
     console.log(seats);
   } else {
-    res.send("Given id doesn't exist.");
+    res.status(404).json({ message: "Given id doesn't exist." });
   }
 });
 

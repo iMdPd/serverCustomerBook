@@ -13,7 +13,7 @@ router.route("/concerts/:id").get((req, res) => {
   if (getElementById) {
     res.json(getElementById);
   } else {
-    res.send("Given id doesn't exist.");
+    res.status(404).json({ message: "Given id doesn't exist." });
   }
 });
 
@@ -23,12 +23,17 @@ router.route("/concerts").post((req, res) => {
 
   if (performer && genre && price && day && image) {
     concerts.push({ id, performer, genre, price, day, image });
-    res.send("Data has been successfully added!");
+
+    res.status(200).json({
+      message: "Data has been successfully added!",
+    });
+
     console.log(concerts);
   } else {
-    res.send(
-      "Ooops, something went wrong. Please don't forget to fill all input fields."
-    );
+    res.status(404).json({
+      message:
+        "Ooops, something went wrong. Please don't forget to fill all input fields.",
+    });
   }
 });
 
@@ -43,12 +48,17 @@ router.route("/concerts/:id").put((req, res) => {
     getElementById.price = price;
     getElementById.day = day;
     getElementById.image = image;
-    res.send("Data has been successfully changed!");
+
+    res.status(200).json({
+      message: "Data has been successfully changed!",
+    });
+
     console.log(concerts);
   } else {
-    res.send(
-      "Ooops, something went wrong. Please don't forget to fill all input fields."
-    );
+    res.status(404).json({
+      message:
+        "Ooops, something went wrong. Please don't forget to fill all input fields.",
+    });
   }
 });
 
@@ -58,10 +68,14 @@ router.route("/concerts/:id").delete((req, res) => {
 
   if (removedElement >= 0) {
     concerts.splice(removedElement, 1);
-    res.send("Data has been successfully removed!");
+
+    res.status(200).json({
+      message: "Data has been successfully removed!",
+    });
+
     console.log(concerts);
   } else {
-    res.send("Given id doesn't exist.");
+    res.status(404).json({ message: "Given id doesn't exist." });
   }
 });
 
