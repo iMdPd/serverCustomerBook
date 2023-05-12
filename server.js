@@ -1,4 +1,4 @@
-const { testimonials, concerts, seats } = require("./db");
+const { testimonials, concerts, seats } = require("./db/db");
 
 const express = require("express");
 const app = express();
@@ -147,15 +147,15 @@ app.delete("/concerts/:id", (req, res) => {
   }
 });
 
-/* CONCERTS------------------------------------------------- */
+/* SEATS------------------------------------------------- */
 
-app.get("/concerts", (req, res) => {
-  res.json(concerts);
+app.get("/seats", (req, res) => {
+  res.json(seats);
 });
 
-app.get("/concerts/:id", (req, res) => {
+app.get("/seats/:id", (req, res) => {
   const { id } = req.params;
-  const getElementById = concerts.find((obj) => obj.id === +id);
+  const getElementById = seats.find((obj) => obj.id === +id);
 
   if (getElementById) {
     res.json(getElementById);
@@ -164,14 +164,14 @@ app.get("/concerts/:id", (req, res) => {
   }
 });
 
-app.post("/concerts", (req, res) => {
-  const { performer, genre, price, day, image } = req.body;
-  const id = Math.max(...concerts.map((obj) => obj.id)) + 1;
+app.post("/seats", (req, res) => {
+  const { day, seat, client, email } = req.body;
+  const id = Math.max(...seats.map((obj) => obj.id)) + 1;
 
-  if (performer && genre && price && day && image) {
-    concerts.push({ id, performer, genre, price, day, image });
+  if (day && seat && client && email) {
+    seats.push({ id, day, seat, client, email });
     res.send("Data has been successfully added!");
-    console.log(concerts);
+    console.log(seats);
   } else {
     res.send(
       "Ooops, something went wrong. Please don't forget to fill all input fields."
@@ -179,19 +179,18 @@ app.post("/concerts", (req, res) => {
   }
 });
 
-app.put("/concerts/:id", (req, res) => {
+app.put("/seats/:id", (req, res) => {
   const { id } = req.params;
-  const { performer, genre, price, day, image } = req.body;
-  const getElementById = concerts.find((obj) => obj.id === +id);
+  const { day, seat, client, email } = req.body;
+  const getElementById = seats.find((obj) => obj.id === +id);
 
-  if (getElementById && performer && genre && price && day && image) {
-    getElementById.performer = performer;
-    getElementById.genre = genre;
-    getElementById.price = price;
+  if (getElementById && day && seat && client && email) {
     getElementById.day = day;
-    getElementById.image = image;
+    getElementById.seat = seat;
+    getElementById.client = client;
+    getElementById.email = email;
     res.send("Data has been successfully changed!");
-    console.log(concerts);
+    console.log(seats);
   } else {
     res.send(
       "Ooops, something went wrong. Please don't forget to fill all input fields."
@@ -199,14 +198,14 @@ app.put("/concerts/:id", (req, res) => {
   }
 });
 
-app.delete("/concerts/:id", (req, res) => {
+app.delete("/seats/:id", (req, res) => {
   const { id } = req.params;
-  const removedElement = concerts.findIndex((obj) => obj.id === +id);
+  const removedElement = seats.findIndex((obj) => obj.id === +id);
 
   if (removedElement >= 0) {
-    concerts.splice(removedElement, 1);
+    seats.splice(removedElement, 1);
     res.send("Data has been successfully removed!");
-    console.log(concerts);
+    console.log(seats);
   } else {
     res.send("Given id doesn't exist.");
   }
