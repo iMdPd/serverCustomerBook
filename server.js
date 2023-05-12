@@ -13,6 +13,12 @@ app.listen(PORT, (err) => {
   console.log(`Server is running on port: ${PORT}`);
 });
 
+app.use(
+  cors({
+    // origin: "https://kodilla.com",
+    // methods: "GET,POST",
+  })
+);
 app.use(express.static(path.join(__dirname, "/public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
