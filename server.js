@@ -1,4 +1,4 @@
-const { testimonials } = require("./db");
+const { testimonials, concerts, seats } = require("./db");
 
 const express = require("express");
 const app = express();
