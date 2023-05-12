@@ -4,6 +4,9 @@
   "main": "index.js",
   "author": "iMdPd",
   "license": "MIT",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
   "dependencies": {
     "express": "^4.18.2"
   }
