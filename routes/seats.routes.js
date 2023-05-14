@@ -21,20 +21,29 @@ router.route("/seats").post((req, res) => {
   const { day, seat, client, email } = req.body;
   const id = Math.max(...seats.map((obj) => obj.id)) + 1;
 
-  if (day && seat && client && email) {
-    seats.push({ id, day, seat, client, email });
+  const seatIsBooked = (reservation) => {
+    return seats.some(
+      (booked) =>
+        reservation.day === booked.day && reservation.seat === booked.seat
+    );
+  };
 
-    res.status(200).json({
-      message: "Data has been successfully added!",
-    });
+  if (seatIsBooked(req.body))
+    if (day && seat && client && email) {
+      seats.push({ id, day, seat, client, email });
 
-    console.log(seats);
-  } else {
-    res.status(404).json({
-      message:
-        "Ooops, something went wrong. Please don't forget to fill all input fields.",
-    });
-  }
+      res.status(200).json({
+        message: "Data has been successfully added!",
+      });
+
+      console.log(seats);
+    } else {
+      res.status(404).json({
+        message:
+          "Ooops, something went wrong. Please don't forget to fill all input fields.",
+      });
+    }
+  else res.status(409).json({ message: "The slot is already taken..." });
 });
 
 router.route("/seats/:id").put((req, res) => {
