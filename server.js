@@ -9,13 +9,12 @@ const PORT = 8000;
 const path = require("path");
 const cors = require("cors");
 
-app.listen(PORT, (err) => {
-  if (err) console.log(err);
-  console.log(`Server is running on port: ${PORT}`);
+app.listen(process.env.PORT || PORT, () => {
+  console.log("Server is running on port: 8000");
 });
 
 app.use(cors());
-app.use(express.static(path.join(__dirname, "/public")));
+app.use(express.static(path.join(__dirname, "/client/build")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -25,6 +24,10 @@ app.get("/", (req, res) => {
 app.use("/", testimonialsRoutes);
 app.use("/", concertsRoutes);
 app.use("/", seatsRoutes);
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "/client/build/index.html"));
+});
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found..." });
