@@ -28,7 +28,7 @@ router.route("/seats").post((req, res) => {
     );
   };
 
-  if (seatIsBooked(req.body))
+  if (!seatIsBooked(req.body))
     if (day && seat && client && email) {
       seats.push({ id, day, seat, client, email });
 
