@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Progress, Alert } from "reactstrap";
 import {
@@ -7,15 +7,21 @@ import {
   getRequests,
 } from "../../../redux/seatsRedux";
 import "./SeatChooser.scss";
+import io from "socket.io-client";
 
 const TIME = 1000 * 120; // ms * sec
 
 const SeatChooser = ({ chosenDay, chosenSeat, updateSeat }) => {
+  const [socket, setSocket] = useState();
+
   const dispatch = useDispatch();
   const seats = useSelector(getSeats);
   const requests = useSelector(getRequests);
 
   useEffect(() => {
+    const socket = io("http://localhost:8000");
+    setSocket(socket);
+
     dispatch(loadSeatsRequest());
     const intervalCall = setInterval(() => {
       dispatch(loadSeatsRequest());
