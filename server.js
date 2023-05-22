@@ -16,7 +16,7 @@ const server = app.listen(PORT, () => {
 
 const io = socket(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "*",
   },
 });
 
@@ -28,6 +28,12 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.json(db);
 });
+
+app.use((req, res, next) => {
+  req.io = io;
+  next();
+});
+
 app.use("/api", testimonialsRoutes);
 app.use("/api", concertsRoutes);
 app.use("/api", seatsRoutes);

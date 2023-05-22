@@ -36,6 +36,8 @@ router.route("/seats").post((req, res) => {
         message: "Data has been successfully added!",
       });
 
+      req.io.emit("seatsUpdated", seats);
+
       console.log(seats);
     } else {
       res.status(404).json({
