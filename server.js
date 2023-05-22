@@ -1,16 +1,23 @@
 const testimonialsRoutes = require("./routes/testimonials.routes");
 const concertsRoutes = require("./routes/concerts.routes");
 const seatsRoutes = require("./routes/seats.routes");
+const socket = require("socket.io");
 
 const db = require("./db/db");
 const express = require("express");
 const app = express();
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 const path = require("path");
 const cors = require("cors");
 
-app.listen(process.env.PORT || PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server is running on port: ${process.env.PORT || PORT}`);
+});
+
+const io = socket(server, {
+  cors: {
+    origin: "http://localhost:3000",
+  },
 });
 
 app.use(cors());
@@ -31,4 +38,8 @@ app.get("*", (req, res) => {
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found..." });
+});
+
+io.on("connection", (socket) => {
+  console.log("New client! Its id – " + socket.id);
 });
