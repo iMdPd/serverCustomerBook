@@ -16,9 +16,14 @@ app.use(express.static(path.join(__dirname, "/client/build")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-mongoose.connect("mongodb://localhost:27017/NewWaveDB", {
+const dbURL = `mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@${process.env.DATABASE}.r4eleyk.mongodb.net/${process.env.COLLECTION}?retryWrites=true&w=majority`;
+
+const connectionParams = {
   useNewUrlParser: true,
-});
+  useUnifiedTopology: true,
+};
+
+mongoose.connect(dbURL, connectionParams);
 const db = mongoose.connection;
 
 db.once("open", () => {
