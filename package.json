@@ -5,12 +5,15 @@
   "author": "iMdPd",
   "license": "MIT",
   "scripts": {
-    "start": "env-cmd -f ./config/dev.env nodemon server.js"
+    "start": "env-cmd -f ./config/dev.env nodemon server.js",
+    "test": "mocha --watch \"./**/*.test.js\""
   },
   "dependencies": {
+    "chai": "^4.3.7",
     "cors": "^2.8.5",
     "env-cmd": "^10.1.0",
     "express": "^4.18.2",
+    "mocha": "^10.2.0",
     "mongoose": "5.7.1",
     "nodemon": "^2.0.22",
     "socket.io": "^4.6.1"
