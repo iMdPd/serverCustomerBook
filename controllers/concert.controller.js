@@ -35,7 +35,8 @@ exports.getByPerfomerName = async (req, res) => {
       }
     });
 
-    if (!filteredConcerts) res.status(404).json({ message: "Not found" });
+    if (!filteredConcerts.length)
+      res.status(404).json({ message: "Not found" });
     else res.json(filteredConcerts);
   } catch (err) {
     res.status(500).json({ message: err });
@@ -59,7 +60,8 @@ exports.getByGenre = async (req, res) => {
       }
     });
 
-    if (!filteredConcerts) res.status(404).json({ message: "Not found" });
+    if (!filteredConcerts.length)
+      res.status(404).json({ message: "Not found" });
     else res.json(filteredConcerts);
   } catch (err) {
     res.status(500).json({ message: err });
