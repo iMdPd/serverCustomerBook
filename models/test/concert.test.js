@@ -23,9 +23,6 @@ describe("Concert Model", () => {
 
   it("should throw an error, if there is missing 'performer' arg'", () => {
     const con = new Concert({
-      _id: {
-        $oid: "6473318d595f41217eacfe0a",
-      },
       genre: "Rock",
       price: 25,
       day: 1,
@@ -45,9 +42,6 @@ describe("Concert Model", () => {
 
   it("should throw an error, if there is missing 'genre' arg'", () => {
     const con = new Concert({
-      _id: {
-        $oid: "6473318d595f41217eacfe0a",
-      },
       performer: "John Doe",
       price: 25,
       day: 1,
@@ -67,9 +61,6 @@ describe("Concert Model", () => {
 
   it("should throw an error, if there is missing 'price' arg'", () => {
     const con = new Concert({
-      _id: {
-        $oid: "6473318d595f41217eacfe0a",
-      },
       performer: "John Doe",
       genre: "Rock",
       day: 1,
@@ -89,9 +80,6 @@ describe("Concert Model", () => {
 
   it("should throw an error, if there is missing 'day' arg'", () => {
     const con = new Concert({
-      _id: {
-        $oid: "6473318d595f41217eacfe0a",
-      },
       performer: "John Doe",
       genre: "Rock",
       price: 25,
@@ -111,9 +99,6 @@ describe("Concert Model", () => {
 
   it("should throw an error, if there is missing 'image' arg'", () => {
     const con = new Concert({
-      _id: {
-        $oid: "6473318d595f41217eacfe0a",
-      },
       performer: "John Doe",
       genre: "Rock",
       price: 25,
