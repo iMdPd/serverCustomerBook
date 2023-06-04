@@ -16,8 +16,13 @@ app.use(express.static(path.join(__dirname, "/client/build")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+const NODE_ENV = process.env.NODE_ENV;
+
 const server = app.listen(PORT, () => {
-  console.log(`Server is running on port: ${process.env.PORT || PORT}`);
+  {
+    NODE_ENV !== "test" &&
+      console.log(`Server is running on port: ${process.env.PORT || PORT}`);
+  }
 });
 
 const io = socket(server, {
@@ -35,7 +40,6 @@ app.use((req, res, next) => {
   next();
 });
 
-const NODE_ENV = process.env.NODE_ENV;
 let dbURL = "";
 
 if (NODE_ENV === "production") dbURL = "url to remote db";
@@ -53,7 +57,7 @@ mongoose.connect(dbURL, connectionParams);
 const db = mongoose.connection;
 
 db.once("open", () => {
-  console.log("Connected to the database");
+  NODE_ENV !== "test" && console.log("Connected to the database");
 });
 db.on("error", (err) => console.log("Error " + err));
 
