@@ -83,7 +83,30 @@ exports.getByPriceRange = async (req, res) => {
         $and: [{ price: { $gt: priceMin } }, { price: { $lt: priceMax } }],
       });
 
-      if (!concerts) res.status(404).json({ message: "Not found" });
+      if (!concerts.length) res.status(404).json({ message: "Not found" });
+      else res.json(concerts);
+    } catch (err) {
+      res.status(500).json({ message: err });
+    }
+  }
+};
+
+exports.getByDay = async (req, res) => {
+  const day = Number(req.params.day);
+
+  console.log(day);
+
+  if (isNaN(day) || day < 1 || day > 3) {
+    res.status(404).json({
+      message: "Ooops, something went wrong.",
+    });
+  } else {
+    try {
+      const concerts = await Concert.find({
+        day: day,
+      });
+
+      if (!concerts.length) res.status(404).json({ message: "Not found" });
       else res.json(concerts);
     } catch (err) {
       res.status(500).json({ message: err });

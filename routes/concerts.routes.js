@@ -16,6 +16,8 @@ router
   .route("/concerts/price/:price_min/:price_max")
   .get(ConcertController.getByPriceRange);
 
+router.route("/concerts/day/:day").get(ConcertController.getByDay);
+
 router.route("/concerts").post(ConcertController.post);
 
 router.route("/concerts/:id").put(ConcertController.put);
