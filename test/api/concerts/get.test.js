@@ -63,4 +63,17 @@ describe("GET /api/concerts", () => {
       expect(res.body).not.to.be.null;
     }
   });
+
+  it("/concerts/genre/:genre should return concerts by :genre ", async () => {
+    const cases = ["rock", "ROCK", "Ro", "R&b", "r&b", "R&B"];
+
+    for (let data of cases) {
+      const res = await request(server).get(`/api/concerts/genre/${data}`);
+
+      expect(res.status).to.be.equal(200);
+      expect(res.body).to.be.an("array");
+      expect(res.body.length).to.be.equal(1);
+      expect(res.body).not.to.be.null;
+    }
+  });
 });
