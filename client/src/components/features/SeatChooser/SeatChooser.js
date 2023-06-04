@@ -17,6 +17,10 @@ const SeatChooser = ({ chosenDay, chosenSeat, updateSeat }) => {
   const seats = useSelector(getSeats);
   const requests = useSelector(getRequests);
 
+  const filteredSeat = seats.filter((seat) =>
+    seat.day === chosenDay ? seat : null
+  );
+
   useEffect(() => {
     const socket = io(
       process.env.NODE_ENV === "production" ? "/" : "http://localhost:8000"
@@ -81,9 +85,11 @@ const SeatChooser = ({ chosenDay, chosenSeat, updateSeat }) => {
       {requests["LOAD_SEATS"] && requests["LOAD_SEATS"].error && (
         <Alert color="warning">Couldn't load seats...</Alert>
       )}
-      <p>
-        Free seats: {50 - seats.length}/{50}
-      </p>
+      {requests["LOAD_SEATS"] && requests["LOAD_SEATS"].success && (
+        <p>
+          Free seats: {50 - filteredSeat.length}/{50}
+        </p>
+      )}
     </div>
   );
 };
