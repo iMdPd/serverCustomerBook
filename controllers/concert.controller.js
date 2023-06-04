@@ -74,8 +74,7 @@ exports.getByPriceRange = async (req, res) => {
 
   if (isNaN(priceMin || priceMax) || priceMin < 0 || priceMax < 0) {
     res.status(404).json({
-      message:
-        "Ooops, something went wrong. Please don't forget to fill all input fields.",
+      message: "Ooops, something went wrong.",
     });
   } else {
     try {
@@ -94,9 +93,7 @@ exports.getByPriceRange = async (req, res) => {
 exports.getByDay = async (req, res) => {
   const day = Number(req.params.day);
 
-  console.log(day);
-
-  if (isNaN(day) || day < 1 || day > 3) {
+  if (isNaN(day) || day < 0) {
     res.status(404).json({
       message: "Ooops, something went wrong.",
     });

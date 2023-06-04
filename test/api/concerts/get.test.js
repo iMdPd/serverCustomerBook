@@ -25,10 +25,20 @@ describe("GET /api/concerts", () => {
       performer: "Rebekah Parker",
       genre: "R&B",
       price: 30,
-      day: 1,
+      day: 2,
       image: "/img/uploads/2f342s4fsdg.jpg",
     });
     await testConTwo.save();
+
+    const testConThree = new Concert({
+      _id: "6473318d595f41217eacfe0c",
+      performer: "Maybell Haley",
+      genre: "Pop",
+      price: 20,
+      day: 3,
+      image: "/img/uploads/hdfh42sd213.jpg",
+    });
+    await testConThree.save();
   });
 
   afterEach(async () => {
@@ -39,7 +49,7 @@ describe("GET /api/concerts", () => {
     const res = await request(server).get("/api/concerts");
     expect(res.status).to.be.equal(200);
     expect(res.body).to.be.an("array");
-    expect(res.body.length).to.be.equal(2);
+    expect(res.body.length).to.be.equal(3);
   });
 
   it("/:id should return one concert by :id ", async () => {
@@ -59,7 +69,7 @@ describe("GET /api/concerts", () => {
 
       expect(res.status).to.be.equal(200);
       expect(res.body).to.be.an("array");
-      expect(res.body.length).to.be.equal(1);
+      expect(res.body).to.have.lengthOf.above(0);
       expect(res.body).not.to.be.null;
     }
   });
@@ -76,7 +86,7 @@ describe("GET /api/concerts", () => {
   });
 
   it("/concerts/genre/:genre should return concerts by :genre", async () => {
-    const cases = ["rock", "ROCK", "Ro", "R&b", "r&b", "R&B"];
+    const cases = ["rock", "ROCK", "Ro", "R&b", "r&b", "R&B", "POP"];
 
     for (let data of cases) {
       const res = await request(server).get(`/api/concerts/genre/${data}`);
@@ -89,7 +99,7 @@ describe("GET /api/concerts", () => {
   });
 
   it("/concerts/genre/:genre should throw error :genre value does'nt match to existing concerts", async () => {
-    const cases = ["POP", "Latino", "HipHop", "Classic", "BMW", "REGGAE"];
+    const cases = ["Latino", "HipHop", "Classic", "BMW", "REGGAE"];
 
     for (let data of cases) {
       const res = await request(server).get(`/api/concerts/genre/${data}`);
@@ -99,7 +109,7 @@ describe("GET /api/concerts", () => {
     }
   });
 
-  it("/concerts/price/:price_min/:price_max should return concerts from price range", async () => {
+  it("/concerts/price/:price_min/:price_max should return concerts by price range", async () => {
     const cases = [
       { price_min: 20, price_max: 50 },
       { price_min: 10, price_max: 40 },
@@ -114,6 +124,29 @@ describe("GET /api/concerts", () => {
       expect(res.status).to.be.equal(200);
       expect(res.body).to.be.an("array");
       expect(res.body).to.have.lengthOf.above(0);
+    }
+  });
+
+  it("/concerts/day/:day should return concerts by :day", async () => {
+    const cases = [1, 2, 3];
+
+    for (let day of cases) {
+      const res = await request(server).get(`/api/concerts/day/${day}`);
+
+      expect(res.status).to.be.equal(200);
+      expect(res.body).to.be.an("array");
+      expect(res.body).not.to.be.null;
+    }
+  });
+
+  it("/concerts/day/:day should throw error, if :day value does'nt match to existing concerts ", async () => {
+    const cases = [0, 4, 5, 6, 12];
+
+    for (let day of cases) {
+      const res = await request(server).get(`/api/concerts/day/${day}`);
+
+      expect(res.status).not.to.be.equal(200);
+      expect(res.body.message).to.be.equal("Not found");
     }
   });
 });
