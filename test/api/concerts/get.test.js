@@ -50,4 +50,17 @@ describe("GET /api/concerts", () => {
     expect(res.body).to.be.an("object");
     expect(res.body).not.to.be.null;
   });
+
+  it("/performer/:performer should return concerts by :performer ", async () => {
+    const cases = ["joh", "j", "b", "reb", "Park", "DO", "kER"];
+
+    for (let data of cases) {
+      const res = await request(server).get(`/api/concerts/performer/${data}`);
+
+      expect(res.status).to.be.equal(200);
+      expect(res.body).to.be.an("array");
+      expect(res.body.length).to.be.equal(1);
+      expect(res.body).not.to.be.null;
+    }
+  });
 });
