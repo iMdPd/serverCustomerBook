@@ -21,22 +21,46 @@ exports.getById = async (req, res) => {
 exports.getByPerfomerName = async (req, res) => {
   try {
     const concerts = await Concert.find();
-    const inputValue = req.params.performer.toLowerCase();
+    const searchingParam = req.params.performer.toLowerCase();
 
-    const matchingConcerts = concerts.filter((concert) => {
+    const filteredConcerts = concerts.filter((concert) => {
       if (
         concert.performer
           .toLowerCase()
           .split(" ")
           .join("")
-          .includes(inputValue.toLowerCase())
+          .includes(searchingParam.toLowerCase())
       ) {
         return concert;
       }
     });
 
-    if (!matchingConcerts) res.status(404).json({ message: "Not found" });
-    else res.json(matchingConcerts);
+    if (!filteredConcerts) res.status(404).json({ message: "Not found" });
+    else res.json(filteredConcerts);
+  } catch (err) {
+    res.status(500).json({ message: err });
+  }
+};
+
+exports.getByGenre = async (req, res) => {
+  try {
+    const concerts = await Concert.find();
+    const searchingParam = req.params.genre.toLowerCase();
+
+    const filteredConcerts = concerts.filter((concert) => {
+      if (
+        concert.genre
+          .toLowerCase()
+          .split(" ")
+          .join("")
+          .includes(searchingParam.toLowerCase())
+      ) {
+        return concert;
+      }
+    });
+
+    if (!filteredConcerts) res.status(404).json({ message: "Not found" });
+    else res.json(filteredConcerts);
   } catch (err) {
     res.status(500).json({ message: err });
   }
