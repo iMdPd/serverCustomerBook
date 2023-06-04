@@ -8,7 +8,7 @@ chai.use(chaiHttp);
 const expect = chai.expect;
 const request = chai.request;
 
-describe("GET /api/concerts", () => {
+describe("DELETE /api/concerts", () => {
   beforeEach(async () => {
     const testConOne = new Concert({
       _id: "6473318d595f41217eacfe0b",
