@@ -35,7 +35,14 @@ app.use((req, res, next) => {
   next();
 });
 
-const dbURL = `mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@${process.env.DATABASE}.r4eleyk.mongodb.net/${process.env.COLLECTION}?retryWrites=true&w=majority`;
+const NODE_ENV = process.env.NODE_ENV;
+let dbURL = "";
+
+if (NODE_ENV === "production") dbURL = "url to remote db";
+else if (NODE_ENV === "test") dbURL = "mongodb://localhost:27017/NewWaveDBtest";
+else
+  dbURL =
+    dbURL = `mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@${process.env.DATABASE}.r4eleyk.mongodb.net/${process.env.COLLECTION}?retryWrites=true&w=majority`;
 
 const connectionParams = {
   useNewUrlParser: true,
