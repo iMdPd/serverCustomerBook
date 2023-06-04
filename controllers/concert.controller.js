@@ -18,6 +18,30 @@ exports.getById = async (req, res) => {
   }
 };
 
+exports.getByPerfomerName = async (req, res) => {
+  try {
+    const concerts = await Concert.find();
+    const inputValue = req.params.performer.toLowerCase();
+
+    const matchingConcerts = concerts.filter((concert) => {
+      if (
+        concert.performer
+          .toLowerCase()
+          .split(" ")
+          .join("")
+          .includes(inputValue.toLowerCase())
+      ) {
+        return concert;
+      }
+    });
+
+    if (!matchingConcerts) res.status(404).json({ message: "Not found" });
+    else res.json(matchingConcerts);
+  } catch (err) {
+    res.status(500).json({ message: err });
+  }
+};
+
 exports.post = async (req, res) => {
   const { performer, genre, price, day, image } = req.body;
 

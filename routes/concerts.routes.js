@@ -6,6 +6,10 @@ router.route("/concerts").get(ConcertController.getAll);
 
 router.route("/concerts/:id").get(ConcertController.getById);
 
+router
+  .route("/concerts/performer/:performer")
+  .get(ConcertController.getByPerfomerName);
+
 router.route("/concerts").post(ConcertController.post);
 
 router.route("/concerts/:id").put(ConcertController.put);
