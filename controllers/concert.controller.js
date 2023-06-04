@@ -66,6 +66,29 @@ exports.getByGenre = async (req, res) => {
   }
 };
 
+exports.getByPriceRange = async (req, res) => {
+  const priceMin = Number(req.params.price_min);
+  const priceMax = Number(req.params.price_max);
+
+  if (isNaN(priceMin || priceMax) || priceMin < 0 || priceMax < 0) {
+    res.status(404).json({
+      message:
+        "Ooops, something went wrong. Please don't forget to fill all input fields.",
+    });
+  } else {
+    try {
+      const concerts = await Concert.find({
+        $and: [{ price: { $gt: priceMin } }, { price: { $lt: priceMax } }],
+      });
+
+      if (!concerts) res.status(404).json({ message: "Not found" });
+      else res.json(concerts);
+    } catch (err) {
+      res.status(500).json({ message: err });
+    }
+  }
+};
+
 exports.post = async (req, res) => {
   const { performer, genre, price, day, image } = req.body;
 
