@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const testimonialsRoutes = require("./routes/testimonials.routes");
 const concertsRoutes = require("./routes/concerts.routes");
 const seatsRoutes = require("./routes/seats.routes");
+const workshopsRoutes = require("./routes/workshops.routes");
 
 const app = express();
 const PORT = process.env.PORT || 8000;
@@ -64,6 +65,7 @@ db.on("error", (err) => console.log("Error " + err));
 app.use("/api", testimonialsRoutes);
 app.use("/api", concertsRoutes);
 app.use("/api", seatsRoutes);
+app.use("/api", workshopsRoutes);
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "/client/build/index.html"));
