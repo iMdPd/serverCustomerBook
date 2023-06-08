@@ -120,7 +120,7 @@ exports.getByDay = async (req, res) => {
 };
 
 exports.post = async (req, res) => {
-  const { performer, genre, price, day, image } = req.body;
+  const { performer, genre, price, day, image } = sanitize(req.body);
 
   if (performer && genre && price && day && image)
     try {

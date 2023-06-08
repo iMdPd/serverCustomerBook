@@ -21,7 +21,7 @@ exports.getById = async (req, res) => {
 };
 
 exports.post = async (req, res) => {
-  const { day, seat, client, email } = req.body;
+  const { day, seat, client, email } = sanitize(req.body);
   const seats = await Seat.findOne({ $and: [{ day: day }, { seat: seat }] });
 
   if (!seats) {

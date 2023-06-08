@@ -22,9 +22,7 @@ exports.getById = async (req, res) => {
 };
 
 exports.post = async (req, res) => {
-  const clean = sanitize(req.body);
-
-  const { name, concertId } = clean;
+  const { name, concertId } = sanitize(req.body);
 
   if (name && concertId)
     try {
