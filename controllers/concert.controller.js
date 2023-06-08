@@ -1,13 +1,13 @@
 const Concert = require("../models/concert.model.js");
 
-
 exports.getAll = async (req, res) => {
   try {
     const concerts = await Concert.find().populate("workshops");
 
     res.json(concerts);
   } catch (err) {
-    res.status(500).json({ message: err });
+    if (process.env.debug === true) res.status(500).json({ message: err });
+    else res.status(500).json({ message: "Couldn't connect to db..." });
   }
 };
 
@@ -17,7 +17,8 @@ exports.getById = async (req, res) => {
     if (!conc) res.status(404).json({ message: "Not found" });
     else res.json(conc);
   } catch (err) {
-    res.status(500).json({ message: err });
+    if (process.env.debug === true) res.status(500).json({ message: err });
+    else res.status(500).json({ message: "Couldn't connect to db..." });
   }
 };
 
@@ -42,7 +43,8 @@ exports.getByPerfomerName = async (req, res) => {
       res.status(404).json({ message: "Not found" });
     else res.json(filteredConcerts);
   } catch (err) {
-    res.status(500).json({ message: err });
+    if (process.env.debug === true) res.status(500).json({ message: err });
+    else res.status(500).json({ message: "Couldn't connect to db..." });
   }
 };
 
@@ -67,7 +69,8 @@ exports.getByGenre = async (req, res) => {
       res.status(404).json({ message: "Not found" });
     else res.json(filteredConcerts);
   } catch (err) {
-    res.status(500).json({ message: err });
+    if (process.env.debug === true) res.status(500).json({ message: err });
+    else res.status(500).json({ message: "Couldn't connect to db..." });
   }
 };
 
@@ -88,7 +91,8 @@ exports.getByPriceRange = async (req, res) => {
       if (!concerts.length) res.status(404).json({ message: "Not found" });
       else res.json(concerts);
     } catch (err) {
-      res.status(500).json({ message: err });
+      if (process.env.debug === true) res.status(500).json({ message: err });
+      else res.status(500).json({ message: "Couldn't connect to db..." });
     }
   }
 };
@@ -109,7 +113,8 @@ exports.getByDay = async (req, res) => {
       if (!concerts.length) res.status(404).json({ message: "Not found" });
       else res.json(concerts);
     } catch (err) {
-      res.status(500).json({ message: err });
+      if (process.env.debug === true) res.status(500).json({ message: err });
+      else res.status(500).json({ message: "Couldn't connect to db..." });
     }
   }
 };
@@ -133,7 +138,8 @@ exports.post = async (req, res) => {
         addedConcert: newConcert,
       });
     } catch (err) {
-      res.status(500).json({ message: err });
+      if (process.env.debug === true) res.status(500).json({ message: err });
+      else res.status(500).json({ message: "Couldn't connect to db..." });
     }
   else
     res.status(409).json({
@@ -174,7 +180,8 @@ exports.put = async (req, res) => {
         });
       } else res.status(404).json({ message: "Not found..." });
     } catch (err) {
-      res.status(500).json({ message: err });
+      if (process.env.debug === true) res.status(500).json({ message: err });
+      else res.status(500).json({ message: "Couldn't connect to db..." });
     }
   } else {
     res.status(404).json({
@@ -195,6 +202,7 @@ exports.delete = async (req, res) => {
       });
     } else res.status(404).json({ message: "Not found..." });
   } catch (err) {
-    res.status(500).json({ message: err });
+    if (process.env.debug === true) res.status(500).json({ message: err });
+    else res.status(500).json({ message: "Couldn't connect to db..." });
   }
 };

@@ -4,6 +4,7 @@ const path = require("path");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const helmet = require("helmet");
+const mongoSanitize = require("express-mongo-sanitize");
 
 const testimonialsRoutes = require("./routes/testimonials.routes");
 const concertsRoutes = require("./routes/concerts.routes");
@@ -13,11 +14,32 @@ const workshopsRoutes = require("./routes/workshops.routes");
 const app = express();
 const PORT = process.env.PORT || 8000;
 
-app.use(cors());
+allowedOrigins = ["http://localhost:3000"];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        const msg =
+          "The CORS policy for this site does not allow external access...";
+        return callback(new Error(msg), false);
+      }
+      return callback(null, true);
+    },
+  })
+);
 app.use(express.static(path.join(__dirname, "/client/build")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(helmet());
+app.use(
+  mongoSanitize({
+    onSanitize: ({ req, key }) => {
+      console.warn(`This request[${key}] is sanitized`, req);
+    },
+  })
+);
 
 const NODE_ENV = process.env.NODE_ENV;
 

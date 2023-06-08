@@ -4,7 +4,8 @@ exports.getAll = async (req, res) => {
   try {
     res.json(await Seat.find());
   } catch (err) {
-    res.status(500).json({ message: err });
+    if (process.env.debug === true) res.status(500).json({ message: err });
+    else res.status(500).json({ message: "Couldn't connect to db..." });
   }
 };
 
@@ -14,7 +15,8 @@ exports.getById = async (req, res) => {
     if (!seat) res.status(404).json({ message: "Not found" });
     else res.json(seat);
   } catch (err) {
-    res.status(500).json({ message: err });
+    if (process.env.debug === true) res.status(500).json({ message: err });
+    else res.status(500).json({ message: "Couldn't connect to db..." });
   }
 };
 
@@ -38,7 +40,8 @@ exports.post = async (req, res) => {
           message: "You've successfully added new seat",
         });
       } catch (err) {
-        res.status(500).json({ message: err });
+        if (process.env.debug === true) res.status(500).json({ message: err });
+        else console.log("Couldn't connect to db...");
       }
     else
       res.status(409).json({
@@ -78,7 +81,8 @@ exports.put = async (req, res) => {
         });
       } else res.status(404).json({ message: "Not found..." });
     } catch (err) {
-      res.status(500).json({ message: err });
+      if (process.env.debug === true) res.status(500).json({ message: err });
+      else console.log("Couldn't connect to db...");
     }
   } else {
     res.status(404).json({
@@ -99,6 +103,7 @@ exports.delete = async (req, res) => {
       });
     } else res.status(404).json({ message: "Not found..." });
   } catch (err) {
-    res.status(500).json({ message: err });
+    if (process.env.debug === true) res.status(500).json({ message: err });
+    else console.log("Couldn't connect to db...");
   }
 };

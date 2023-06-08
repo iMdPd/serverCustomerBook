@@ -1,10 +1,12 @@
 const Workshop = require("../models/workshop.model.js");
+const sanitize = require("mongo-sanitize");
 
 exports.getAll = async (req, res) => {
   try {
     res.json(await Workshop.find());
   } catch (err) {
-    res.status(500).json({ message: err });
+    if (process.env.debug === true) res.status(500).json({ message: err });
+    else res.status(500).json({ message: "Couldn't connect to db..." });
   }
 };
 
@@ -14,12 +16,15 @@ exports.getById = async (req, res) => {
     if (!wor) res.status(404).json({ message: "Not found" });
     else res.json(wor);
   } catch (err) {
-    res.status(500).json({ message: err });
+    if (process.env.debug === true) res.status(500).json({ message: err });
+    else res.status(500).json({ message: "Couldn't connect to db..." });
   }
 };
 
 exports.post = async (req, res) => {
-  const { name, concertId } = req.body;
+  const clean = sanitize(req.body);
+
+  const { name, concertId } = clean;
 
   if (name && concertId)
     try {
@@ -34,7 +39,8 @@ exports.post = async (req, res) => {
         addedWorkshop: newWorkshop,
       });
     } catch (err) {
-      res.status(500).json({ message: err });
+      if (process.env.debug === true) res.status(500).json({ message: err });
+      else res.status(500).json({ message: "Couldn't connect to db..." });
     }
   else
     res.status(409).json({
@@ -69,7 +75,8 @@ exports.put = async (req, res) => {
         });
       } else res.status(404).json({ message: "Not found..." });
     } catch (err) {
-      res.status(500).json({ message: err });
+      if (process.env.debug === true) res.status(500).json({ message: err });
+      else res.status(500).json({ message: "Couldn't connect to db..." });
     }
   } else {
     res.status(404).json({
@@ -90,6 +97,7 @@ exports.delete = async (req, res) => {
       });
     } else res.status(404).json({ message: "Not found..." });
   } catch (err) {
-    res.status(500).json({ message: err });
+    if (process.env.debug === true) res.status(500).json({ message: err });
+    else res.status(500).json({ message: "Couldn't connect to db..." });
   }
 };

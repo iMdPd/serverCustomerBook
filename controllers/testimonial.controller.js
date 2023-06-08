@@ -4,7 +4,8 @@ exports.getAll = async (req, res) => {
   try {
     res.json(await Testimonial.find());
   } catch (err) {
-    res.status(500).json({ message: err });
+    if (process.env.debug === true) res.status(500).json({ message: err });
+    else res.status(500).json({ message: "Couldn't connect to db..." });
   }
 };
 
@@ -14,7 +15,8 @@ exports.getById = async (req, res) => {
     if (!tes) res.status(404).json({ message: "Not found" });
     else res.json(tes);
   } catch (err) {
-    res.status(500).json({ message: err });
+    if (process.env.debug === true) res.status(500).json({ message: err });
+    else res.status(500).json({ message: "Couldn't connect to db..." });
   }
 };
 
@@ -34,7 +36,8 @@ exports.post = async (req, res) => {
         addedTestimonial: newTestimonial,
       });
     } catch (err) {
-      res.status(500).json({ message: err });
+      if (process.env.debug === true) res.status(500).json({ message: err });
+      else res.status(500).json({ message: "Couldn't connect to db..." });
     }
   else
     res.status(409).json({
@@ -69,7 +72,8 @@ exports.put = async (req, res) => {
         });
       } else res.status(404).json({ message: "Not found..." });
     } catch (err) {
-      res.status(500).json({ message: err });
+      if (process.env.debug === true) res.status(500).json({ message: err });
+      else res.status(500).json({ message: "Couldn't connect to db..." });
     }
   } else {
     res.status(404).json({
@@ -90,6 +94,7 @@ exports.delete = async (req, res) => {
       });
     } else res.status(404).json({ message: "Not found..." });
   } catch (err) {
-    res.status(500).json({ message: err });
+    if (process.env.debug === true) res.status(500).json({ message: err });
+    else res.status(500).json({ message: "Couldn't connect to db..." });
   }
 };
