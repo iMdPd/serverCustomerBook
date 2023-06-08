@@ -3,6 +3,7 @@ const express = require("express");
 const path = require("path");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const helmet = require("helmet");
 
 const testimonialsRoutes = require("./routes/testimonials.routes");
 const concertsRoutes = require("./routes/concerts.routes");
@@ -16,6 +17,7 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, "/client/build")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(helmet());
 
 const NODE_ENV = process.env.NODE_ENV;
 
