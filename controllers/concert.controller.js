@@ -1,4 +1,5 @@
 const Concert = require("../models/concert.model.js");
+const sanitize = require("mongo-sanitize");
 
 exports.getAll = async (req, res) => {
   try {
