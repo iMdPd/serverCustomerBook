@@ -14,7 +14,11 @@ const workshopsRoutes = require("./routes/workshops.routes");
 const app = express();
 const PORT = process.env.PORT || 8000;
 
-allowedOrigins = ["http://localhost:3000"];
+allowedOrigins = [
+  "http://localhost:3000",
+  "http://localhost:8000",
+  `http://localhost:${process.env.PORT}`,
+];
 
 app.use(
   cors({
