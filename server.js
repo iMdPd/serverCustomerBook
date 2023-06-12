@@ -17,7 +17,7 @@ const PORT = process.env.PORT || 8000;
 allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:8000",
-  "https://servercustomerbook.imdpd.repl.co/",
+  "https://servercustomerbook.imdpd.repl.co",
 ];
 
 app.use(
